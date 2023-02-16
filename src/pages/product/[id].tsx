@@ -1,14 +1,15 @@
+import { CartContext, CartItemsProps } from "@/contexts/CartContexts";
 import { stripe } from "@/lib/stripe";
 import {
   ImageContainer,
   ProductContainer,
   ProductDetails,
 } from "@/styles/pages/product";
-import axios from "axios";
+
 import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Stripe from "stripe";
 
 interface ProductProps {
@@ -23,24 +24,28 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  const [isCreatingCheckoutSession, setisCreatingCheckoutSession] =
-    useState(false);
+  const { productItem, setProductItem, cartItems, setCartItems } =
+    useContext(CartContext);
 
-  async function handleBuyProduct() {
-    try {
-      setisCreatingCheckoutSession(true);
+  function handleBuyProducts() {
+    const item = {
+      price: product.defaultPriceId,
+      quantity: 1,
+    };
+    setProductItem((state) => [...state, item]);
 
-      const response = await axios.post("/api/checkout", {
-        priceId: product.defaultPriceId,
-      });
-      const { checkoutUrl } = response.data;
+    handleAddItemsToCart({ product });
+  }
 
-      window.location.href = checkoutUrl;
-    } catch (error) {
-      setisCreatingCheckoutSession(false);
-      //Conectar com uma ferramenta de observalidade (Datadog /Sentry)
-      alert("Falha ao redirecionar ao checkout");
-    }
+  function handleAddItemsToCart(item: ProductProps) {
+    const newItem = {
+      price: item.product.price,
+      imageUrl: item.product.imageUrl,
+      name: item.product.name,
+      id: item.product.id,
+    };
+
+    setCartItems((state) => [...state, newItem]);
   }
   return (
     <>
@@ -58,12 +63,7 @@ export default function Product({ product }: ProductProps) {
 
           <p>{product.description}</p>
 
-          <button
-            disabled={isCreatingCheckoutSession}
-            onClick={handleBuyProduct}
-          >
-            Comprar agora
-          </button>
+          <button onClick={handleBuyProducts}>Adicionar ao carrinho</button>
         </ProductDetails>
       </ProductContainer>
     </>
