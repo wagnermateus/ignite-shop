@@ -1,4 +1,4 @@
-import { CartContext, CartItemsProps } from "@/contexts/CartContexts";
+import { CartContext } from "@/contexts/CartContexts";
 import { stripe } from "@/lib/stripe";
 import {
   ImageContainer,
@@ -9,7 +9,7 @@ import {
 import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import Stripe from "stripe";
 
 interface ProductProps {
@@ -24,8 +24,7 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  const { productItem, setProductItem, cartItems, setCartItems } =
-    useContext(CartContext);
+  const { setProductItem, setCartItems } = useContext(CartContext);
 
   function handleBuyProducts() {
     const item = {

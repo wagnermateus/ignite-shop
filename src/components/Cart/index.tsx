@@ -15,13 +15,31 @@ import {
 import * as Dialog from "@radix-ui/react-dialog";
 import axios from "axios";
 import { X } from "phosphor-react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import Product from "./components/Product";
 
 export default function Cart() {
   const [isCreatingCheckoutSession, setisCreatingCheckoutSession] =
     useState(false);
   const { productItem, cartItems } = useContext(CartContext);
+
+  const totalItemCount =
+    cartItems.length === 1
+      ? `${cartItems.length} item`
+      : `${cartItems.length} itens`;
+
+  const totalAmountPayable = cartItems.reduce(
+    (accumulator, item) => {
+      accumulator.total += parseFloat(item.price);
+      return accumulator;
+    },
+    { total: 0 }
+  );
+  const formattedTotalAmountPayable = Intl.NumberFormat("pt-PT", {
+    style: "currency",
+
+    currency: "KZS",
+  }).format(totalAmountPayable.total);
 
   async function handleBuyProduct() {
     try {
@@ -67,14 +85,19 @@ export default function Cart() {
             <PurchaseDetails>
               <QuantityOfProducts>
                 <span>Quantidade</span>
-                <span>3 itens</span>
+                <span>{totalItemCount}</span>
               </QuantityOfProducts>
               <TotalPurchaseAmount>
                 <b>Valor total</b>
-                <b>R$ 270,00</b>
+                <b>{formattedTotalAmountPayable}</b>
               </TotalPurchaseAmount>
             </PurchaseDetails>
-            <button onClick={handleBuyProduct}>Finalizar compra</button>
+            <button
+              disabled={isCreatingCheckoutSession}
+              onClick={handleBuyProduct}
+            >
+              Finalizar compra
+            </button>
           </PurchaseContainer>
         </Content>
       </Overlay>
