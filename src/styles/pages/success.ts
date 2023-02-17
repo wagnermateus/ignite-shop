@@ -38,18 +38,22 @@ export const SuccessContainer = styled("main", {
 
 export const ImageContainer = styled("div", {
   width: "100%",
-  maxWidth: 130,
-  height: 145,
+  maxWidth: "8.75rem",
+  height: "8.75rem",
   background: "linear-gradient(180deg, #1ea4b3 0%, #7465d4 100%)",
-  borderRadius: 0,
+  borderRadius: 1000,
   padding: "0.25rem",
   marginTop: "4rem",
-
+  marginLeft: "-3.25rem",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-
+  boxShadow: "0px 0px 60px rgba(0, 0, 0, 0.8)",
   img: {
     objectFit: "cover",
   },
+});
+
+export const ImagesContainer = styled("div", {
+  display: "flex",
 });

@@ -24,13 +24,14 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  const { setProductItem, setCartItems } = useContext(CartContext);
+  const { setProductItem, setCartItems, productItem } = useContext(CartContext);
 
   function handleBuyProducts() {
     const item = {
       price: product.defaultPriceId,
       quantity: 1,
     };
+
     setProductItem((state) => [...state, item]);
 
     handleAddItemsToCart({ product });
