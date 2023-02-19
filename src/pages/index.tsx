@@ -6,28 +6,45 @@ import Image from "next/image";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 
-import { HomeContainer, Product } from "../styles/pages/home";
+import { CartButton, HomeContainer, Product } from "../styles/pages/home";
 import { GetStaticProps } from "next";
 import Link from "next/link";
 import Head from "next/head";
+import { Handbag } from "phosphor-react";
+import { useContext } from "react";
+import { CartContext } from "@/contexts/CartContexts";
 
+interface ProductProps {
+  id: string;
+  name: string;
+  imageUrl: string;
+  price: string;
+  defaultPriceId: { id: string };
+}
 interface HomeProps {
-  products: {
-    id: string;
-    name: string;
-    imageUrl: string;
-    price: string;
-  }[];
+  products: ProductProps[];
 }
 
 export default function Home({ products }: HomeProps) {
+  const { handleAddItemsToCart } = useContext(CartContext);
+
   const [slideRef] = useKeenSlider({
     slides: {
-      perView: 3,
+      perView: 2,
       spacing: 48,
     },
   });
+  function addItemToCart(item: ProductProps) {
+    const newItem = {
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      imageUrl: item.imageUrl,
+      defaultPriceId: item.defaultPriceId.id,
+    };
 
+    handleAddItemsToCart(newItem);
+  }
   return (
     <>
       <Head>
@@ -45,8 +62,13 @@ export default function Home({ products }: HomeProps) {
               <Product className="keen-slider__slide">
                 <Image src={product.imageUrl} width={520} height={480} alt="" />
                 <footer>
-                  <strong>{product.name}</strong>
-                  <span>{product.price}</span>
+                  <div>
+                    <strong>{product.name}</strong>
+                    <span>{product.price}</span>
+                  </div>
+                  <CartButton onClick={() => addItemToCart(product)}>
+                    <Handbag size={24} color="#e1e1e6" weight="bold" />
+                  </CartButton>
                 </footer>
               </Product>
             </Link>
@@ -74,6 +96,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
         currency: "KZS",
       }).format(price.unit_amount! / 100),
+      defaultPriceId: product.default_price,
     };
   });
 

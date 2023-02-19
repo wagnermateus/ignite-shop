@@ -1,3 +1,4 @@
+import produce from "immer";
 import {
   createContext,
   Dispatch,
@@ -6,7 +7,7 @@ import {
   useState,
 } from "react";
 
-interface ProductItemProps {
+interface SessionDataProps {
   price: string;
   quantity: number;
 }
@@ -15,16 +16,26 @@ export interface CartItemsProps {
   name: string;
   price: string;
   imageUrl: string;
+  defaultPriceId?: string;
 }
 interface CartContextType {
-  productItem: ProductItemProps[];
-  setProductItem: Dispatch<SetStateAction<ProductItemProps[]>>;
-  productsQuantity: number;
-  setProductsQuantity: Dispatch<SetStateAction<number>>;
+  sessionData: SessionDataProps[];
+  setSessionData: Dispatch<SetStateAction<SessionDataProps[]>>;
   cartItems: CartItemsProps[];
   setCartItems: Dispatch<SetStateAction<CartItemsProps[]>>;
+  handleAddItemsToCart: (item: CartItemsProps) => void;
 }
 
+export interface ProductProps {
+  product: {
+    id: string;
+    name: string;
+    imageUrl: string;
+    price: string;
+    description?: string;
+    defaultPriceId: string;
+  };
+}
 interface CartProviderProps {
   children: ReactNode;
 }
@@ -32,17 +43,30 @@ export const CartContext = createContext({} as CartContextType);
 
 export function CartProvider({ children }: CartProviderProps) {
   const [cartItems, setCartItems] = useState<CartItemsProps[]>([]);
-  const [productItem, setProductItem] = useState<ProductItemProps[]>([]);
-  const [productsQuantity, setProductsQuantity] = useState(0);
+  const [sessionData, setSessionData] = useState<SessionDataProps[]>([]);
+
+  function handleAddItemsToCart(item: CartItemsProps) {
+    setSessionData(
+      produce((draft) => {
+        draft.push({ price: item.defaultPriceId!, quantity: 1 });
+      })
+    );
+
+    setCartItems(
+      produce((draft) => {
+        draft.push(item);
+      })
+    );
+  }
+
   return (
     <CartContext.Provider
       value={{
-        productItem,
-        setProductItem,
-        productsQuantity,
-        setProductsQuantity,
+        sessionData,
+        setSessionData,
         cartItems,
         setCartItems,
+        handleAddItemsToCart,
       }}
     >
       {children}

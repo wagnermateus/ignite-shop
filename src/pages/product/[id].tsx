@@ -24,28 +24,17 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  const { setProductItem, setCartItems, productItem } = useContext(CartContext);
+  const { handleAddItemsToCart } = useContext(CartContext);
 
-  function handleBuyProducts() {
-    const item = {
-      price: product.defaultPriceId,
-      quantity: 1,
-    };
-
-    setProductItem((state) => [...state, item]);
-
-    handleAddItemsToCart({ product });
-  }
-
-  function handleAddItemsToCart(item: ProductProps) {
+  function addItemsToCart(item: ProductProps) {
     const newItem = {
+      id: item.product.id,
+      name: item.product.name,
       price: item.product.price,
       imageUrl: item.product.imageUrl,
-      name: item.product.name,
-      id: item.product.id,
+      defaultPriceId: item.product.defaultPriceId,
     };
-
-    setCartItems((state) => [...state, newItem]);
+    handleAddItemsToCart(newItem);
   }
   return (
     <>
@@ -63,7 +52,9 @@ export default function Product({ product }: ProductProps) {
 
           <p>{product.description}</p>
 
-          <button onClick={handleBuyProducts}>Adicionar ao carrinho</button>
+          <button onClick={() => addItemsToCart({ product })}>
+            Adicionar ao carrinho
+          </button>
         </ProductDetails>
       </ProductContainer>
     </>

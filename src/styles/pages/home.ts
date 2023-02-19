@@ -41,9 +41,15 @@ export const Product = styled("div", {
     opacity: 0,
     transition: "all 0.2s ease-in-out",
 
+    div: {
+      display: "flex",
+      flexDirection: "column",
+    },
+
     strong: {
       fontSize: "$lg",
       color: "$gray100",
+      lineHeight: 1.6,
     },
 
     span: {
@@ -58,5 +64,19 @@ export const Product = styled("div", {
       transform: "translateY(0%)",
       opacity: 1,
     },
+  },
+});
+export const CartButton = styled("button", {
+  position: "relative",
+  background: "$green500",
+  border: "none",
+  cursor: "pointer",
+  width: "3rem",
+  height: "3rem",
+  borderRadius: 6,
+  transition: "all .3s",
+
+  "&:hover": {
+    background: "$green300",
   },
 });

@@ -21,16 +21,18 @@ import Product from "./components/Product";
 export default function Cart() {
   const [isCreatingCheckoutSession, setisCreatingCheckoutSession] =
     useState(false);
-  const { productItem, cartItems } = useContext(CartContext);
+  const { sessionData, cartItems } = useContext(CartContext);
 
   const totalItemCount =
-    cartItems.length === 1
-      ? `${cartItems.length} item`
-      : `${cartItems.length} itens`;
+    sessionData.length === 1
+      ? `${sessionData.length} item`
+      : `${sessionData.length} itens`;
 
   const totalAmountPayable = cartItems.reduce(
     (accumulator, item) => {
-      accumulator.total += parseFloat(item.price);
+      const formatStr = item.price.split(" ").join("");
+
+      accumulator.total += parseFloat(formatStr);
       return accumulator;
     },
     { total: 0 }
@@ -46,7 +48,7 @@ export default function Cart() {
       setisCreatingCheckoutSession(true);
 
       const response = await axios.post("/api/checkout", {
-        productItems: productItem,
+        sessionData: sessionData,
       });
       const { checkoutUrl } = response.data;
 
