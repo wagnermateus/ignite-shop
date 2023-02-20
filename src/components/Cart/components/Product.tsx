@@ -1,12 +1,20 @@
-import { CartItemsProps } from "@/contexts/CartContexts";
+import { CartContext, CartItemsProps } from "@/contexts/CartContexts";
 import {
   ImageContainer,
   ProductContainer,
   ProductDetails,
 } from "@/styles/components/Cart/components/product";
 import Image from "next/image";
+import { useContext } from "react";
 
-export default function Product({ name, imageUrl, price }: CartItemsProps) {
+export default function Product({
+  name,
+  imageUrl,
+  price,
+  defaultPriceId,
+}: CartItemsProps) {
+  const { removeItemFromCart } = useContext(CartContext);
+
   return (
     <ProductContainer>
       <ImageContainer>
@@ -21,7 +29,9 @@ export default function Product({ name, imageUrl, price }: CartItemsProps) {
             currency: "KZS",
           }).format(price)}
         </span>
-        <button>Remover</button>
+        <button onClick={() => removeItemFromCart(price, defaultPriceId!)}>
+          Remover
+        </button>
       </ProductDetails>
     </ProductContainer>
   );

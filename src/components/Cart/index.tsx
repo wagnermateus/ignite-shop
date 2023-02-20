@@ -77,6 +77,7 @@ export default function Cart() {
                   name={item.name}
                   price={item.price}
                   imageUrl={item.imageUrl}
+                  defaultPriceId={item.defaultPriceId}
                 />
               );
             })}

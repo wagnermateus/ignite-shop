@@ -14,7 +14,7 @@ interface SessionDataProps {
 export interface CartItemsProps {
   id?: string;
   name: string;
-  price: number | string;
+  price: number;
   imageUrl: string;
   defaultPriceId?: string;
 }
@@ -24,6 +24,7 @@ interface CartContextType {
   cartItems: CartItemsProps[];
   setCartItems: Dispatch<SetStateAction<CartItemsProps[]>>;
   handleAddItemsToCart: (item: CartItemsProps) => void;
+  removeItemFromCart: (price: number, priceId: string) => void;
 }
 
 export interface ProductProps {
@@ -70,6 +71,17 @@ export function CartProvider({ children }: CartProviderProps) {
     }
   }
 
+  function removeItemFromCart(price: number, priceId: string) {
+    const cartWithoutThisItem = cartItems.filter((item) => {
+      return item.price !== price;
+    });
+
+    const sessiontWithoutThisItem = sessionData.filter((item) => {
+      return item.price != priceId;
+    });
+    setCartItems(cartWithoutThisItem);
+    setSessionData(sessiontWithoutThisItem);
+  }
   return (
     <CartContext.Provider
       value={{
@@ -78,6 +90,7 @@ export function CartProvider({ children }: CartProviderProps) {
         cartItems,
         setCartItems,
         handleAddItemsToCart,
+        removeItemFromCart,
       }}
     >
       {children}
