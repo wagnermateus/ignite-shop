@@ -18,7 +18,7 @@ interface ProductProps {
   id: string;
   name: string;
   imageUrl: string;
-  price: string;
+  price: number;
   defaultPriceId: { id: string };
 }
 interface HomeProps {
@@ -45,6 +45,7 @@ export default function Home({ products }: HomeProps) {
 
     handleAddItemsToCart(newItem);
   }
+
   return (
     <>
       <Head>
@@ -64,7 +65,13 @@ export default function Home({ products }: HomeProps) {
                 <footer>
                   <div>
                     <strong>{product.name}</strong>
-                    <span>{product.price}</span>
+                    <span>
+                      {Intl.NumberFormat("pt-PT", {
+                        style: "currency",
+
+                        currency: "KZS",
+                      }).format(product.price)}
+                    </span>
                   </div>
                   <CartButton onClick={() => addItemToCart(product)}>
                     <Handbag size={24} color="#e1e1e6" weight="bold" />
@@ -91,11 +98,7 @@ export const getStaticProps: GetStaticProps = async () => {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
-      price: Intl.NumberFormat("pt-PT", {
-        style: "currency",
-
-        currency: "KZS",
-      }).format(price.unit_amount! / 100),
+      price: price.unit_amount! / 100,
       defaultPriceId: product.default_price,
     };
   });

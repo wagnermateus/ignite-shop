@@ -30,9 +30,7 @@ export default function Cart() {
 
   const totalAmountPayable = cartItems.reduce(
     (accumulator, item) => {
-      const formatStr = item.price.split(" ").join("");
-
-      accumulator.total += parseFloat(formatStr);
+      accumulator.total += item.price;
       return accumulator;
     },
     { total: 0 }

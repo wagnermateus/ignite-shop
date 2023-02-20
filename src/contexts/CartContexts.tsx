@@ -14,7 +14,7 @@ interface SessionDataProps {
 export interface CartItemsProps {
   id?: string;
   name: string;
-  price: string;
+  price: number;
   imageUrl: string;
   defaultPriceId?: string;
 }

@@ -14,7 +14,13 @@ export default function Product({ name, imageUrl, price }: CartItemsProps) {
       </ImageContainer>
       <ProductDetails>
         <p>{name}</p>
-        <span>{price}</span>
+        <span>
+          {Intl.NumberFormat("pt-PT", {
+            style: "currency",
+
+            currency: "KZS",
+          }).format(price)}
+        </span>
         <button>Remover</button>
       </ProductDetails>
     </ProductContainer>
