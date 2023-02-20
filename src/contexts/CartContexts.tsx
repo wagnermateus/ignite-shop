@@ -14,7 +14,7 @@ interface SessionDataProps {
 export interface CartItemsProps {
   id?: string;
   name: string;
-  price: number;
+  price: number | string;
   imageUrl: string;
   defaultPriceId?: string;
 }
@@ -46,17 +46,28 @@ export function CartProvider({ children }: CartProviderProps) {
   const [sessionData, setSessionData] = useState<SessionDataProps[]>([]);
 
   function handleAddItemsToCart(item: CartItemsProps) {
-    setSessionData(
-      produce((draft) => {
-        draft.push({ price: item.defaultPriceId!, quantity: 1 });
-      })
-    );
+    let isItemInCart = false;
 
-    setCartItems(
-      produce((draft) => {
-        draft.push(item);
-      })
-    );
+    cartItems.map((element) => {
+      if (element.price === item.price) {
+        alert("Já adicionou este item ao carrinho!");
+        isItemInCart = true;
+        return;
+      }
+    });
+    if (!isItemInCart) {
+      setSessionData(
+        produce((draft) => {
+          draft.push({ price: item.defaultPriceId!, quantity: 1 });
+        })
+      );
+
+      setCartItems(
+        produce((draft) => {
+          draft.push(item);
+        })
+      );
+    }
   }
 
   return (
