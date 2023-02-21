@@ -11,8 +11,8 @@ import { GetStaticProps } from "next";
 import Link from "next/link";
 import Head from "next/head";
 import { Handbag } from "phosphor-react";
-import { useContext } from "react";
 import { CartContext } from "@/contexts/CartContexts";
+import { useContextSelector } from "use-context-selector";
 
 interface ProductProps {
   id: string;
@@ -26,7 +26,9 @@ interface HomeProps {
 }
 
 export default function Home({ products }: HomeProps) {
-  const { handleAddItemsToCart } = useContext(CartContext);
+  const handleAddItemsToCart = useContextSelector(CartContext, (context) => {
+    return context.handleAddItemsToCart;
+  });
 
   const [slideRef] = useKeenSlider({
     slides: {

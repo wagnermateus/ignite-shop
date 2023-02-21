@@ -6,6 +6,10 @@ export const HomeContainer = styled("main", {
   maxWidth: "calc(100vw - ((100vw - 1180px) / 2))",
   marginLeft: "auto",
   minHeight: 656,
+
+  "@media(max-width: 1222px)": {
+    padding: "0 2rem",
+  },
 });
 
 export const Product = styled("div", {
@@ -17,6 +21,7 @@ export const Product = styled("div", {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  minWidth: "43.5rem",
 
   img: {
     objectFit: "cover",

@@ -17,4 +17,10 @@ export const globalStyles = globalCss({
     fontFamily: "Roboto",
     fontWeight: 400,
   },
+
+  "@media(max-width: 768px)": {
+    html: {
+      fontSize: "87%",
+    },
+  },
 });

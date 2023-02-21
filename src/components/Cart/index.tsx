@@ -15,13 +15,20 @@ import {
 import * as Dialog from "@radix-ui/react-dialog";
 import axios from "axios";
 import { X } from "phosphor-react";
-import { useContext, useState } from "react";
+import { useState } from "react";
+import { useContextSelector } from "use-context-selector";
 import Product from "./components/Product";
 
 export default function Cart() {
   const [isCreatingCheckoutSession, setisCreatingCheckoutSession] =
     useState(false);
-  const { sessionData, cartItems } = useContext(CartContext);
+  const sessionData = useContextSelector(CartContext, (context) => {
+    return context.sessionData;
+  });
+
+  const cartItems = useContextSelector(CartContext, (context) => {
+    return context.cartItems;
+  });
 
   const totalItemCount =
     sessionData.length === 1

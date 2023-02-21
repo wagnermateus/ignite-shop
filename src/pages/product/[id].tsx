@@ -9,8 +9,9 @@ import {
 import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { useContext } from "react";
+
 import Stripe from "stripe";
+import { useContextSelector } from "use-context-selector";
 
 interface ProductProps {
   product: {
@@ -24,7 +25,9 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  const { handleAddItemsToCart } = useContext(CartContext);
+  const handleAddItemsToCart = useContextSelector(CartContext, (context) => {
+    return context.handleAddItemsToCart;
+  });
 
   function addItemsToCart(item: ProductProps) {
     const newItem = {

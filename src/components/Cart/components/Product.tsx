@@ -5,7 +5,7 @@ import {
   ProductDetails,
 } from "@/styles/components/Cart/components/product";
 import Image from "next/image";
-import { useContext } from "react";
+import { useContextSelector } from "use-context-selector";
 
 export default function Product({
   name,
@@ -13,7 +13,9 @@ export default function Product({
   price,
   defaultPriceId,
 }: CartItemsProps) {
-  const { removeItemFromCart } = useContext(CartContext);
+  const removeItemFromCart = useContextSelector(CartContext, (context) => {
+    return context.removeItemFromCart;
+  });
 
   return (
     <ProductContainer>

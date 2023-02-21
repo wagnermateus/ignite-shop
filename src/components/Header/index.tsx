@@ -8,12 +8,15 @@ import {
   HeaderContainer,
   ItemsCount,
 } from "@/styles/components/Header";
-import { useContext } from "react";
+
 import { CartContext } from "@/contexts/CartContexts";
 import { Handbag } from "phosphor-react";
+import { useContextSelector } from "use-context-selector";
 
 export function Header() {
-  const { cartItems } = useContext(CartContext);
+  const cartItems = useContextSelector(CartContext, (context) => {
+    return context.cartItems;
+  });
 
   const cartIsEmpty = cartItems.length === 0;
   return (

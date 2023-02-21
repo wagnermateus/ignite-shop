@@ -11,6 +11,11 @@ export const ImageContainer = styled("div", {
   background: "linear-gradient(180deg, #1ea4b3 0%, #7465d4 100%)",
 
   borderRadius: 8,
+
+  img: {
+    width: "100%",
+    height: "100%",
+  },
 });
 
 export const ProductDetails = styled("div", {

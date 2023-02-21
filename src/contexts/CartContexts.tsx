@@ -1,11 +1,6 @@
 import produce from "immer";
-import {
-  createContext,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useState,
-} from "react";
+import { Dispatch, ReactNode, SetStateAction, useState } from "react";
+import { createContext } from "use-context-selector";
 
 interface SessionDataProps {
   price: string;

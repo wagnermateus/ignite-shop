@@ -8,6 +8,16 @@ export const ProductContainer = styled("main", {
 
   maxWidth: 1180,
   margin: "0 auto",
+
+  "@media(max-width: 1222px)": {
+    padding: "0 2rem",
+  },
+
+  "@media(max-width: 600px)": {
+    gridTemplateColumns: "1fr",
+    alignItems: "center",
+    justifyItems: "center",
+  },
 });
 
 export const ImageContainer = styled("div", {
@@ -24,6 +34,7 @@ export const ImageContainer = styled("div", {
 
   img: {
     objectFit: "cover",
+    width: "100%",
   },
 });
 

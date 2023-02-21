@@ -8,6 +8,10 @@ export const HeaderContainer = styled("header", {
 
   display: "flex",
   justifyContent: "space-between",
+
+  "@media(max-width: 1222px)": {
+    padding: "2rem 2rem",
+  },
 });
 
 export const ItemsCount = styled("span", {
